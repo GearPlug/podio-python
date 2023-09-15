@@ -1,3 +1,4 @@
+import json
 from urllib.parse import urlencode
 
 import requests
@@ -16,8 +17,8 @@ class Client(object):
         self.CLIENT_SECRET = client_secret
         self.REDIRECT_URI = redirect_uri
 
-    def authorization_url(self, redirect_uri, state=None):
-        params = {"client_id": self.CLIENT_ID, "redirect_uri": redirect_uri}
+    def authorization_url(self, state=None):
+        params = {"client_id": self.CLIENT_ID, "redirect_uri": self.REDIRECT_URI}
         if state:
             params["state"] = state
         return self.AUTH_URL + urlencode(params)
@@ -26,11 +27,38 @@ class Client(object):
         body = {
             "grant_type": "authorization_code",
             "client_id": self.CLIENT_ID,
+            "redirect_uri": self.REDIRECT_URI,
             "client_secret": self.CLIENT_SECRET,
             "code": code,
-            "redirect_uri": self.REDIRECT_URI,
         }
-        return self.post("oauth/token/v2", data=body)
+        return self.post("oauth/token/v2", data=json.dumps(body))
+
+    def set_token(self, access_token):
+        self.headers.update(Authorization=f"OAuth2 {access_token}")
+
+    def list_organizations(self):
+        return self.get("org/")
+
+    def get_organization_spaces(self, org_id):
+        return self.get(f"org/{org_id}/space/")
+
+    def get_space_members(self, space_id):
+        return self.get(f"space/{space_id}/member/")
+
+    def list_applications(self):
+        return self.get("app/")
+
+    def get_application(self, app_id):
+        return self.get(f"app/{app_id}")
+
+    def create_item(self, app_id, body):
+        return self.post(f"item/app/{app_id}", data=json.dumps(body))
+
+    def create_task(self, body):
+        return self.post("task/", data=json.dumps(body))
+
+    def get_task_labels(self):
+        return self.get("task/label/")
 
     def get(self, endpoint, **kwargs):
         response = self.request("GET", endpoint, **kwargs)
