@@ -17,6 +17,9 @@ class Client(object):
         self.CLIENT_SECRET = client_secret
         self.REDIRECT_URI = redirect_uri
 
+        if access_token is not None:
+            self.set_token(access_token)
+
     def authorization_url(self, state=None):
         params = {"client_id": self.CLIENT_ID, "redirect_uri": self.REDIRECT_URI}
         if state:
@@ -35,6 +38,19 @@ class Client(object):
 
     def set_token(self, access_token):
         self.headers.update(Authorization=f"OAuth2 {access_token}")
+
+    def refresh_token(self, refresh_token):
+        body = {
+            "grant_type": "refresh_token",
+            "client_id": self.CLIENT_ID,
+            "redirect_uri": self.REDIRECT_URI,
+            "client_secret": self.CLIENT_SECRET,
+            "refresh_token": refresh_token,
+        }
+        return self.post("oauth/token/v2", data=json.dumps(body))
+
+    def get_user_status(self):
+        return self.get("user/status/")
 
     def list_organizations(self):
         return self.get("org/")
