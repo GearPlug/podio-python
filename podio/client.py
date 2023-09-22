@@ -139,5 +139,5 @@ class Client(object):
         if status_code == 406:
             raise ContactsLimitExceededError(r)
         if status_code == 500:
-            raise Exception
+            raise Exception(f'Server Error: {r}')
         return r
