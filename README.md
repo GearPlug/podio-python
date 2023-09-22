@@ -1,5 +1,5 @@
 # podio-python
-![](https://img.shields.io/badge/version-0.1.4-success) ![](https://img.shields.io/badge/Python-3.8%20|%203.9%20|%203.10%20|%203.11-4B8BBE?logo=python&logoColor=white)  
+![](https://img.shields.io/badge/version-0.1.5-success) ![](https://img.shields.io/badge/Python-3.8%20|%203.9%20|%203.10%20|%203.11-4B8BBE?logo=python&logoColor=white)  
 
 *podio-python* is an API wrapper for Podio, written in Python.  
 This library uses Oauth2 for authentication.
@@ -15,7 +15,7 @@ client = Client(access_token=access_token)
 ```
 ```python
 # if you are using Oauth2 to get an access_token:
-from intercom.client import Client
+from podio.client import Client
 client = Client(client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri)
 ```
 To obtain and set an access token:
