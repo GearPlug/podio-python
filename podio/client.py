@@ -58,6 +58,9 @@ class Client(object):
     def get_organization_spaces(self, org_id):
         return self.get(f"org/{org_id}/space/")
 
+    def get_space(self, space_id):
+        return self.get(f"space/{space_id}")
+
     def get_space_members(self, space_id):
         return self.get(f"space/{space_id}/member/")
 
@@ -75,6 +78,23 @@ class Client(object):
 
     def get_task_labels(self):
         return self.get("task/label/")
+
+    def list_webhooks(self, ref_type, ref_id):
+        return self.get(f"hook/{ref_type}/{ref_id}")
+
+    def create_webhook(self, ref_type, ref_id, url, hook_type):
+        body = {
+            "url": url,
+            "type": hook_type,
+        }
+        return self.post(f"hook/{ref_type}/{ref_id}", data=json.dumps(body))
+
+    def delete_webhook(self, webhook_id):
+        return self.delete(f"hook/{webhook_id}")
+
+    def validate_hook_verification(self, webhook_id, code):
+        body = {"code": code}
+        return self.post(f"hook/{webhook_id}/verify/validate", data=json.dumps(body))
 
     def get(self, endpoint, **kwargs):
         response = self.request("GET", endpoint, **kwargs)
@@ -121,4 +141,3 @@ class Client(object):
         if status_code == 500:
             raise Exception
         return r
-
