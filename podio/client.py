@@ -76,6 +76,9 @@ class Client(object):
     def create_item(self, app_id, body):
         return self.post(f"item/app/{app_id}", data=json.dumps(body))
 
+    def get_task(self, task_id):
+        return self.get(f"task/{task_id}")
+
     def create_task(self, body):
         return self.post("task/", data=json.dumps(body))
 

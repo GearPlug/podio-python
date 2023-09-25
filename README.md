@@ -1,5 +1,5 @@
 # podio-python
-![](https://img.shields.io/badge/version-0.1.6-success) ![](https://img.shields.io/badge/Python-3.8%20|%203.9%20|%203.10%20|%203.11-4B8BBE?logo=python&logoColor=white)  
+![](https://img.shields.io/badge/version-0.1.7-success) ![](https://img.shields.io/badge/Python-3.8%20|%203.9%20|%203.10%20|%203.11-4B8BBE?logo=python&logoColor=white)  
 
 *podio-python* is an API wrapper for Podio, written in Python.  
 This library uses Oauth2 for authentication.
@@ -77,6 +77,10 @@ item = client.get_item(item_id)
 ```python
 body = {"fields": {"title": "Juan Assignment", "status": 1}}
 item = client.create_item(app_id, body)
+```
+#### Get task
+```python
+task = client.get_task(task_id)
 ```
 #### Create task
 ```python
