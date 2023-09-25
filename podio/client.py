@@ -70,6 +70,9 @@ class Client(object):
     def get_application(self, app_id):
         return self.get(f"app/{app_id}")
 
+    def get_item(self, item_id):
+        return self.get(f"item/{item_id}")
+
     def create_item(self, app_id, body):
         return self.post(f"item/app/{app_id}", data=json.dumps(body))
 
@@ -139,5 +142,5 @@ class Client(object):
         if status_code == 406:
             raise ContactsLimitExceededError(r)
         if status_code == 500:
-            raise Exception(f'Server Error: {r}')
+            raise ConnectionError(f'Server Error: {r}')
         return r
