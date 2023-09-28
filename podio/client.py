@@ -27,6 +27,7 @@ class Client(object):
         return self.AUTH_URL + urlencode(params)
 
     def get_access_token(self, code):
+        self.headers.pop("Authorization", None)
         body = {
             "grant_type": "authorization_code",
             "client_id": self.CLIENT_ID,
@@ -40,6 +41,7 @@ class Client(object):
         self.headers.update(Authorization=f"OAuth2 {access_token}")
 
     def refresh_token(self, refresh_token):
+        self.headers.pop("Authorization", None)
         body = {
             "grant_type": "refresh_token",
             "client_id": self.CLIENT_ID,
@@ -127,6 +129,7 @@ class Client(object):
 
     def parse(self, response):
         status_code = response.status_code
+        print(response.request.headers)
         if "Content-Type" in response.headers and self.APPLICATION_JSON in response.headers["Content-Type"]:
             try:
                 r = response.json()
