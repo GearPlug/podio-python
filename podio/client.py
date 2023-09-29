@@ -129,7 +129,6 @@ class Client(object):
 
     def parse(self, response):
         status_code = response.status_code
-        print(response.request.headers)
         if "Content-Type" in response.headers and self.APPLICATION_JSON in response.headers["Content-Type"]:
             try:
                 r = response.json()
